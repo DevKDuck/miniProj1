@@ -13,6 +13,16 @@
 		<welcome-file>default.htm</welcome-file>
 	</welcome-file-list>
 	
+	<servlet>
+    <servlet-name>memberServlet</servlet-name>
+    <servlet-class>member.memberServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>memberServlet</servlet-name>
+    <url-pattern>/memberServlet</url-pattern>
+</servlet-mapping>
+	
+	
 	
 </web-app>
 
