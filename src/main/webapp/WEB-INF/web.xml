@@ -19,7 +19,7 @@
 </servlet>
 <servlet-mapping>
     <servlet-name>memberServlet</servlet-name>
-    <url-pattern>/memberServlet</url-pattern>
+    <url-pattern>/member.do</url-pattern>
 </servlet-mapping>
 	
 	
