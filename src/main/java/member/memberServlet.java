@@ -1,6 +1,8 @@
 package member;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,12 +15,13 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "memberServlet", urlPatterns = "/member/insertForm")
 public class memberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	MemberDAO memberDAO = new MemberDAO();
     /**
      * @see HttpServlet#HttpServlet()
      */
     public memberServlet() {
         super();
+        
         // TODO Auto-generated constructor stub
     }
 
@@ -30,6 +33,10 @@ public class memberServlet extends HttpServlet {
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		request.getRequestDispatcher("/WEB-INF/member/insertForm.jsp").forward(request, response);
+		List<MemberVO> md = memberDAO.list();
+		for (int i = 0; i< md.size(); i++) {
+			System.out.println(md.get(0));
+		}
 	}
 
 	/**
@@ -39,6 +46,7 @@ public class memberServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		request.getRequestDispatcher("/WEB-INF/member/list.jsp").forward(request, response);
+		
 	}
 
 }
