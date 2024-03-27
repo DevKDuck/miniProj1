@@ -13,8 +13,8 @@ public class BoardVO {
 	private int bno;
 	private String btitle;
 	private String bcontent;
-	private String bwriter;
+	private String member_id;
 	private String bdate;
 	private int bcount;
-
+	private String bwriter;
 }

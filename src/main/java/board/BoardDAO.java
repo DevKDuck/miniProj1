@@ -22,8 +22,9 @@ public class BoardDAO {
 			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/miniProj-db", "bituser", "1004");
 			System.out.println("연결 성공");
 			
-			boardListPstmt = conn.prepareStatement("SELECT * FROM TB_BOARD");
-//			memberDetailPstmt = conn.prepareStatement("");
+
+			 boardListPstmt = conn.prepareStatement("SELECT B.*, M.member_name bwriter FROM TB_BOARD B inner join TB_MEMBER M on B.member_id = M.member_id");
+
 			
 			
 		} catch (ClassNotFoundException e) {
@@ -35,7 +36,6 @@ public class BoardDAO {
 		}
 	}
 	
-//	  public List<MemberVO> list(MemberVO member) {
 	  public List<BoardVO> list(BoardVO board) {
 	        List<BoardVO> list = new ArrayList<>();
 	        try {
@@ -51,9 +51,10 @@ public class BoardDAO {
 	            	BoardVO members = new BoardVO(rs.getInt("bno")
 	                        , rs.getString("btitle")
 	                        , rs.getString("bcontent")
-	                        , rs.getString("bwriter")
+	                        , rs.getString("member_id")
 	                        , rs.getString("bdate")
-	                        , rs.getInt("bViewCount"));
+	                        , rs.getInt("bViewCount")
+	                        , rs.getString("bwriter"));
 	                
 	                list.add(members);
 	            }
