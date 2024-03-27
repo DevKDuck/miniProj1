@@ -16,6 +16,7 @@
  <label>주소  : ${view.member_address}</label> <br/>
  <label>번호  : ${view.member_phonenumber}</label> <br/>
  <label>성별  : ${view.member_gender}</label> <br/>
+ <label>취미  : ${view.hobby_name}</label> <br/>
  
  
  <form id="viewForm" action="member.do" method="post">

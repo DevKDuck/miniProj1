@@ -76,7 +76,7 @@ public class MemberServlet extends HttpServlet {
 		case "list" -> memberController.list(request, memberVO);
 		case "view" -> memberController.view(request, memberVO);
 		case "delete" -> memberController.delete(request, memberVO);
-////		case "updateForm" -> updateForm(request, response);
+		case "updateForm" -> memberController.updateForm(request, memberVO);
 ////		case "update" -> update(request, response);
 ////		case "insertForm" -> memberController.insertForm(request,response);
 //		case "insertForm" -> "insertForm"
