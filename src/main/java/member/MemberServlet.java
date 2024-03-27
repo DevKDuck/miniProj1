@@ -69,6 +69,7 @@ public class MemberServlet extends HttpServlet {
 			memberVO = objectMapper.convertValue(convertMap(request.getParameterMap()), MemberVO.class);
 		} else if (contentType.startsWith("application/json")) {
 			memberVO = objectMapper.readValue(request.getInputStream(), MemberVO.class);
+			System.out.println("memberVO = " + memberVO);
 		}
 
 		String action = memberVO.getAction();

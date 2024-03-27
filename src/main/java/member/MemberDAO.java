@@ -16,13 +16,14 @@ public class MemberDAO {
 	private static PreparedStatement memberInsertPstmt = null;
 	private static PreparedStatement memberDetailPstmt = null;
 	private static PreparedStatement memberDeletePstmt = null;
+	private static PreparedStatement memberHobbiesPstmt = null;
 	
 	
 	static {
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
 
-			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/miniProj-db", "bituser", "1004");
+			conn = DriverManager.getConnection("jdbc:mariadb://localhost:53306/miniProj-db", "bituser", "1004");
 			System.out.println("연결 성공");
 			
 			memberListPstmt = conn.prepareStatement("SELECT * FROM TB_MEMBER");
@@ -32,6 +33,7 @@ public class MemberDAO {
 			memberDetailPstmt = conn.prepareStatement("SELECT M.*, GROUP_CONCAT(H.hobby_name SEPARATOR ', ') AS hobby_name FROM TB_MEMBER M INNER JOIN TB_MEMBERHOBBY MH ON M.member_id = MH.member_id INNER JOIN TB_HOBBY H ON MH.hobby_id = H.hobby_id WHERE M.member_id = ? GROUP BY M.member_id, M.member_name");
 //			memberDetailPstmt = conn.prepareStatement("SELECT H.hobby_name FROM TB_MEMBER M INNER JOIN TB_MEMBERHOBBY MH ON M.member_id = MH.member_id INNER JOIN TB_HOBBY H ON MH.hobby_id = H.hobby_id WHERE M.member_id = ?");
 			memberDeletePstmt = conn.prepareStatement("delete from TB_MEMBER where member_id=?");
+			memberHobbiesPstmt = conn.prepareStatement("SELECT H.hobby_id, H.hobby_name FROM TB_MEMBERHOBBY MH INNER JOIN TB_MEMBER M ON M.member_id = MH.member_id INNER JOIN TB_HOBBY H ON MH.hobby_id = H.hobby_id WHERE M.member_id = ?");
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -127,5 +129,23 @@ public class MemberDAO {
 	        }
 	        return updated;
 	    }
-	
+
+	  
+	  public List<HobbyVO> getMemberHobbies(MemberVO member) {
+	        List<HobbyVO> list = new ArrayList<>();
+	        try {
+	        	memberHobbiesPstmt.setString(1, member.getMember_id());
+	        	ResultSet rs = memberHobbiesPstmt.executeQuery();
+	            while (rs.next()) {
+	                list.add(HobbyVO.builder()
+	                		.hobby_id(rs.getString("hobby_id"))
+	                		.hobby_name(rs.getString("hobby_name"))
+	                		.build());
+	            }
+	            rs.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return list;
+	    } 	  
 }
