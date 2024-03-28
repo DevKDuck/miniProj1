@@ -69,6 +69,7 @@ public class MemberServlet extends HttpServlet {
 			memberVO = objectMapper.convertValue(convertMap(request.getParameterMap()), MemberVO.class);
 		} else if (contentType.startsWith("application/json")) {
 			memberVO = objectMapper.readValue(request.getInputStream(), MemberVO.class);
+			System.out.println("memberVO = " + memberVO);
 		}
 
 		String action = memberVO.getAction();
@@ -77,7 +78,7 @@ public class MemberServlet extends HttpServlet {
 		case "view" -> memberController.view(request, memberVO);
 		case "delete" -> memberController.delete(request, memberVO);
 		case "updateForm" -> memberController.updateForm(request, memberVO);
-////		case "update" -> update(request, response);
+		case "update" -> memberController.update(request, memberVO);
 ////		case "insertForm" -> memberController.insertForm(request,response);
 //		case "insertForm" -> "insertForm"
 ////		case "insert" -> insert(request, response);

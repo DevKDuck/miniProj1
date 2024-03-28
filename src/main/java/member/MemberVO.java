@@ -25,6 +25,7 @@ public class MemberVO {
 
 	private String member_id;
 	private String member_pwd;
+	private String member_pwd2;
 	private String member_name;
 	private String member_address;
 	private String member_phonenumber;

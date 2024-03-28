@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public class MemberDAO {
 	private static Connection conn = null;
 	private static PreparedStatement memberListPstmt = null;
@@ -17,7 +15,8 @@ public class MemberDAO {
 	private static PreparedStatement memberDetailPstmt = null;
 	private static PreparedStatement memberDeletePstmt = null;
 	private static PreparedStatement memberHobbiesPstmt = null;
-	
+	private static PreparedStatement memberUpdatePstmt = null;
+	private static PreparedStatement memberHobbiesUpdatePstmt = null;
 	
 	static {
 		try {
@@ -28,11 +27,14 @@ public class MemberDAO {
 			
 			memberListPstmt = conn.prepareStatement("SELECT * FROM TB_MEMBER");
 			memberInsertPstmt = conn.prepareStatement("insert into TB_MEMBER (member_id, member_pwd, member_name, member_address, member_phone_number, member_gender) values (?, ?, ?, ?,?,?)");
-
 			
-			memberDetailPstmt = conn.prepareStatement("SELECT M.*, GROUP_CONCAT(H.hobby_name SEPARATOR ', ') AS hobby_name FROM TB_MEMBER M INNER JOIN TB_MEMBERHOBBY MH ON M.member_id = MH.member_id INNER JOIN TB_HOBBY H ON MH.hobby_id = H.hobby_id WHERE M.member_id = ? GROUP BY M.member_id, M.member_name");			
+			memberDetailPstmt = conn.prepareStatement("SELECT M.*, GROUP_CONCAT(H.hobby_name SEPARATOR ', ') AS hobby_name FROM TB_MEMBER M INNER JOIN TB_MEMBERHOBBY MH ON M.member_id = MH.member_id INNER JOIN TB_HOBBY H ON MH.hobby_id = H.hobby_id WHERE M.member_id = ? GROUP BY M.member_id, M.member_name");
+			
 			memberDeletePstmt = conn.prepareStatement("delete from TB_MEMBER where member_id=?");
 			memberHobbiesPstmt = conn.prepareStatement("SELECT H.hobby_id, H.hobby_name FROM TB_MEMBERHOBBY MH INNER JOIN TB_MEMBER M ON M.member_id = MH.member_id INNER JOIN TB_HOBBY H ON MH.hobby_id = H.hobby_id WHERE M.member_id = ?");
+			memberUpdatePstmt = conn.prepareStatement("UPDATE TB_MEMBER SET member_pwd = ?, member_name = ?, member_address = ?, member_phone_number = ?, member_gender = ? WHERE member_id = ?");
+			memberHobbiesUpdatePstmt = conn.prepareStatement("DELETE FROM TB_MemberHobby WHERE member_id = ?");
+			
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -128,7 +130,43 @@ public class MemberDAO {
 	        }
 	        return updated;
 	    }
-	
+	  
+	  public int update(MemberVO member) {
+	        int updated = 0;
+	        try {
+	        	memberUpdatePstmt.setString(1, member.getMember_pwd());
+	        	memberUpdatePstmt.setString(2, member.getMember_name());
+	        	memberUpdatePstmt.setString(3, member.getMember_address());
+	        	memberUpdatePstmt.setString(4, member.getMember_phonenumber());
+	        	memberUpdatePstmt.setString(5, member.getMember_gender());
+	        	memberUpdatePstmt.setString(6, member.getMember_id());
+	            updated = memberUpdatePstmt.executeUpdate();
+	            conn.commit();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return updated;
+	    }
+	  
+	  
+	  public void updateMemberHobby(MemberVO member) {
+		  try {
+			  memberHobbiesUpdatePstmt.setString(1,member.getMember_id());
+			  memberHobbiesUpdatePstmt.executeUpdate();
+			  memberHobbiesUpdatePstmt = conn.prepareStatement("INSERT INTO TB_MemberHobby (member_id, hobby_id) VALUES (?, ?)");
+			  memberHobbiesUpdatePstmt.setString(1,member.getMember_id());
+			  for (String hobby_id: member.getHobbies()) {
+				  memberHobbiesUpdatePstmt.setString(2,hobby_id);
+				  memberHobbiesUpdatePstmt.addBatch();
+			  }
+			  memberHobbiesUpdatePstmt.executeBatch();
+			  conn.commit();
+		  } catch (Exception e) {
+	            e.printStackTrace();
+          }
+	  }
+
+	  
 	  public List<HobbyVO> getMemberHobbies(MemberVO member) {
 	        List<HobbyVO> list = new ArrayList<>();
 	        try {
