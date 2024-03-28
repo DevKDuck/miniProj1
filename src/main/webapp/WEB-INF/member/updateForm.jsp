@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
@@ -53,7 +52,9 @@
     		if(json.status == 0) {
     			//성공
     			alert("회원 정보 수정을 성공 하였습니다");
-    			location = "member.do?action=mypage&mid=" + mid.value;
+
+    			location = "member.do?action=view&member_id=" + member_id.value;
+
     		} else {
     			alert(json.statusMessage);
     		}

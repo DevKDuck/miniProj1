@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 
 const formToSerialize = (formId) => JSON.stringify([].reduce.call(document.querySelector('#' + formId), (data, element) => {
 	   //이름이 있는 것을 대상으로함 
@@ -53,4 +51,3 @@ const myFetch = (url, formId, handler) => {
 		if (handler) handler(json);
 	});	
 }
-
