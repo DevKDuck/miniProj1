@@ -30,7 +30,7 @@ public class MemberDAO {
 			memberInsertPstmt = conn.prepareStatement("insert into TB_MEMBER (member_id, member_pwd, member_name, member_address, member_phone_number, member_gender) values (?, ?, ?, ?,?,?)");
 //			memberDetailPstmt = conn.prepareStatement("select * from TB_MEMBER where member_id=?");
 			
-			memberDetailPstmt = conn.prepareStatement("SELECT M.*, GROUP_CONCAT(H.hobby_name SEPARATOR ', ') AS hobby_name FROM TB_MEMBER M INNER JOIN TB_MEMBERHOBBY MH ON M.member_id = MH.member_id INNER JOIN TB_HOBBY H ON MH.hobby_id = H.hobby_id WHERE M.member_id = ? GROUP BY M.member_id, M.member_name");
+			memberDetailPstmt = conn.prepareStatement("select M.*, (select GROUP_CONCAT(H.hobby_name separator ', ') from TB_MEMBERHOBBY MH inner join TB_HOBBY H on MH.hobby_id = H.hobby_id where M.member_id = MH.member_id ) as hobby_name from TB_MEMBER M where M.member_id = ? group by M.member_id, M.member_name");
 //			memberDetailPstmt = conn.prepareStatement("SELECT H.hobby_name FROM TB_MEMBER M INNER JOIN TB_MEMBERHOBBY MH ON M.member_id = MH.member_id INNER JOIN TB_HOBBY H ON MH.hobby_id = H.hobby_id WHERE M.member_id = ?");
 			memberDeletePstmt = conn.prepareStatement("delete from TB_MEMBER where member_id=?");
 			memberHobbiesPstmt = conn.prepareStatement("SELECT H.hobby_id, H.hobby_name FROM TB_MEMBERHOBBY MH INNER JOIN TB_MEMBER M ON M.member_id = MH.member_id INNER JOIN TB_HOBBY H ON MH.hobby_id = H.hobby_id WHERE M.member_id = ?");
