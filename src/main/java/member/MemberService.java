@@ -39,6 +39,7 @@ public class MemberService {
 	public int update(MemberVO member) throws ServletException, IOException {
 		memberDAO.updateMemberHobby(member);
 		return memberDAO.update(member);
+
 	}
 	
 	public List<HobbyVO> getHobbyList() throws ServletException, IOException {

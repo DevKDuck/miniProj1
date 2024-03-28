@@ -15,9 +15,10 @@ public class MemberDAO {
 	private static PreparedStatement memberDetailPstmt = null;
 	private static PreparedStatement memberDeletePstmt = null;
 	private static PreparedStatement memberHobbiesPstmt = null;
+
 	private static PreparedStatement memberUpdatePstmt = null;
 	private static PreparedStatement memberHobbiesUpdatePstmt = null;
-	
+
 	static {
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
@@ -32,9 +33,9 @@ public class MemberDAO {
 			
 			memberDeletePstmt = conn.prepareStatement("delete from TB_MEMBER where member_id=?");
 			memberHobbiesPstmt = conn.prepareStatement("SELECT H.hobby_id, H.hobby_name FROM TB_MEMBERHOBBY MH INNER JOIN TB_MEMBER M ON M.member_id = MH.member_id INNER JOIN TB_HOBBY H ON MH.hobby_id = H.hobby_id WHERE M.member_id = ?");
+
 			memberUpdatePstmt = conn.prepareStatement("UPDATE TB_MEMBER SET member_pwd = ?, member_name = ?, member_address = ?, member_phone_number = ?, member_gender = ? WHERE member_id = ?");
 			memberHobbiesUpdatePstmt = conn.prepareStatement("DELETE FROM TB_MemberHobby WHERE member_id = ?");
-			
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -130,6 +131,7 @@ public class MemberDAO {
 	        }
 	        return updated;
 	    }
+
 	  
 	  public int update(MemberVO member) {
 	        int updated = 0;
@@ -165,7 +167,6 @@ public class MemberDAO {
 	            e.printStackTrace();
           }
 	  }
-
 	  
 	  public List<HobbyVO> getMemberHobbies(MemberVO member) {
 	        List<HobbyVO> list = new ArrayList<>();
