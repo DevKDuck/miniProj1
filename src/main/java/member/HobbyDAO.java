@@ -19,7 +19,7 @@ public class HobbyDAO {
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
 
-			conn = DriverManager.getConnection("jdbc:mariadb://localhost:53306/miniProj-db", "bituser", "1004");
+			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/miniProj-db", "bituser", "1004");
 			System.out.println("연결 성공");
 			
 			listPstmt = conn.prepareStatement("SELECT * FROM TB_HOBBY order by hobby_name");
@@ -33,7 +33,6 @@ public class HobbyDAO {
 		}
 	}
 	
-//	  
 	 public List<HobbyVO> list() {
 	        List<HobbyVO> list = new ArrayList<>();
 	        try {

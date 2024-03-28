@@ -1,5 +1,7 @@
 package member;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,7 +30,8 @@ public class MemberVO {
 	private String member_phonenumber;
 	private String member_gender;
 	private String hobby_name;
-	
+	private List<HobbyVO> member_hobbies;
+	private List<String> hobbies;
 
 	//실행 명령키
 	private String action;
@@ -44,7 +47,10 @@ public class MemberVO {
 		this.member_gender = member_gender;
 		this.hobby_name = hobby_name;
 	}
-
+	public boolean isCheckedHobbyId(String hobby_id) {
+		if (member_hobbies != null) return member_hobbies.stream().anyMatch(hobby -> hobby.isEqualHobbyId(hobby_id));
+		return false;
+	}
 
 
 

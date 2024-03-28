@@ -16,6 +16,7 @@ public class MemberDAO {
 	private static PreparedStatement memberInsertPstmt = null;
 	private static PreparedStatement memberDetailPstmt = null;
 	private static PreparedStatement memberDeletePstmt = null;
+	private static PreparedStatement memberHobbiesPstmt = null;
 	
 	
 	static {
@@ -27,11 +28,11 @@ public class MemberDAO {
 			
 			memberListPstmt = conn.prepareStatement("SELECT * FROM TB_MEMBER");
 			memberInsertPstmt = conn.prepareStatement("insert into TB_MEMBER (member_id, member_pwd, member_name, member_address, member_phone_number, member_gender) values (?, ?, ?, ?,?,?)");
-//			memberDetailPstmt = conn.prepareStatement("select * from TB_MEMBER where member_id=?");
+
 			
-			memberDetailPstmt = conn.prepareStatement("SELECT M.*, GROUP_CONCAT(H.hobby_name SEPARATOR ', ') AS hobby_name FROM TB_MEMBER M INNER JOIN TB_MEMBERHOBBY MH ON M.member_id = MH.member_id INNER JOIN TB_HOBBY H ON MH.hobby_id = H.hobby_id WHERE M.member_id = ? GROUP BY M.member_id, M.member_name");
-//			memberDetailPstmt = conn.prepareStatement("SELECT H.hobby_name FROM TB_MEMBER M INNER JOIN TB_MEMBERHOBBY MH ON M.member_id = MH.member_id INNER JOIN TB_HOBBY H ON MH.hobby_id = H.hobby_id WHERE M.member_id = ?");
+			memberDetailPstmt = conn.prepareStatement("SELECT M.*, GROUP_CONCAT(H.hobby_name SEPARATOR ', ') AS hobby_name FROM TB_MEMBER M INNER JOIN TB_MEMBERHOBBY MH ON M.member_id = MH.member_id INNER JOIN TB_HOBBY H ON MH.hobby_id = H.hobby_id WHERE M.member_id = ? GROUP BY M.member_id, M.member_name");			
 			memberDeletePstmt = conn.prepareStatement("delete from TB_MEMBER where member_id=?");
+			memberHobbiesPstmt = conn.prepareStatement("SELECT H.hobby_id, H.hobby_name FROM TB_MEMBERHOBBY MH INNER JOIN TB_MEMBER M ON M.member_id = MH.member_id INNER JOIN TB_HOBBY H ON MH.hobby_id = H.hobby_id WHERE M.member_id = ?");
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -128,4 +129,21 @@ public class MemberDAO {
 	        return updated;
 	    }
 	
+	  public List<HobbyVO> getMemberHobbies(MemberVO member) {
+	        List<HobbyVO> list = new ArrayList<>();
+	        try {
+	        	memberHobbiesPstmt.setString(1, member.getMember_id());
+	        	ResultSet rs = memberHobbiesPstmt.executeQuery();
+	            while (rs.next()) {
+	                list.add(HobbyVO.builder()
+	                		.hobby_id(rs.getString("hobby_id"))
+	                		.hobby_name(rs.getString("hobby_name"))
+	                		.build());
+	            }
+	            rs.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return list;
+	    } 	  
 }

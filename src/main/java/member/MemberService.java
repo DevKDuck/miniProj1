@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 public class MemberService {
 	
 	MemberDAO memberDAO = new MemberDAO();
+	HobbyDAO hobbyDAO = new HobbyDAO();
 	
 	public MemberService() {
 		super();
@@ -29,7 +30,18 @@ public class MemberService {
 		return memberDAO.delete(member);
 	}
 	public MemberVO updateForm(MemberVO member) throws ServletException, IOException {
-		return memberDAO.read(member);
+		MemberVO result = memberDAO.read(member);
+		if (result != null) {
+			result.setMember_hobbies(memberDAO.getMemberHobbies(member));
+		}
+		return result;
+	}
+	public int update(MemberVO member) throws ServletException, IOException {
+		return 0;
+	}
+	
+	public List<HobbyVO> getHobbyList() throws ServletException, IOException {
+		return hobbyDAO.list();
 	}
 	
 }

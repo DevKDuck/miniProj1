@@ -27,17 +27,22 @@ public class MemberController {
 		return "list";
 	}
 
-	public Object insertForm(HttpServletRequest request, MemberVO member)  throws ServletException, IOException {
+	public Object insertForm(HttpServletRequest request, MemberVO member) throws ServletException, IOException {
 		System.out.println("등록화면");
-		//1. 처리
-//		MemberVO memberVO = new MemberVO();
-//		memeberService.insert(memberVO);
-		//2. jsp출력할 값 설정
-//		request.setAttribute("insertForm", memberService.insertForm(member));
-		
+
+		request.setAttribute("hobbyList", memberService.getHobbyList());
+
 		return "insertForm";
 	}
 	
+	public Object updateForm(HttpServletRequest request, MemberVO member) throws ServletException, IOException {
+		System.out.println("수정화면");
+
+		request.setAttribute("member", memberService.updateForm(member));
+		request.setAttribute("hobbyList", memberService.getHobbyList());
+
+		return "updateForm";
+	}
 
 	public Object view(HttpServletRequest request, MemberVO member) throws ServletException, IOException {
 		System.out.println("상세보기");
@@ -59,12 +64,22 @@ int updated = memberService.delete(member);
 		
 		return map;
 	}
-	public Object updateForm(HttpServletRequest request, MemberVO member) throws ServletException, IOException {
-		System.out.println("수정화면");
-		
-		request.setAttribute("member", memberService.updateForm(member));
-		
-		return "updateForm"; 
+
+	public Object update(HttpServletRequest request, MemberVO member) throws ServletException, IOException {
+		System.out.println("수정");
+		System.out.println("member->" + member);
+
+		int updated = memberService.update(member);
+
+		Map<String, Object> map = new HashMap<>();
+		if (updated == 1) { // 성공
+			map.put("status", 0);
+		} else {
+			map.put("status", -99);
+			map.put("statusMessage", "회원 정보 수정 실패하였습니다");
+		}
+
+		return map;
 	}
 	
 	
