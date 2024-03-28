@@ -2,6 +2,7 @@ package member;
 
 import java.util.List;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -52,6 +53,8 @@ public class MemberVO {
 		if (member_hobbies != null) return member_hobbies.stream().anyMatch(hobby -> hobby.isEqualHobbyId(hobby_id));
 		return false;
 	}
-
+	public boolean isEqualPassword(MemberVO memberVO) {
+		return memberVO != null && member_pwd.equals(memberVO.getMember_pwd());
+	}
 
 }

@@ -20,9 +20,7 @@ public class MemberService {
 	public List<MemberVO> list(MemberVO member) throws ServletException, IOException {
 		return memberDAO.list(member);
 	}
-	public int insert(MemberVO member) throws ServletException, IOException {
-		return memberDAO.insert(member);
-	}
+	
 	public MemberVO view(MemberVO member) throws ServletException, IOException {
 		return memberDAO.read(member);
 	}
@@ -38,8 +36,22 @@ public class MemberService {
 	}
 	public int update(MemberVO member) throws ServletException, IOException {
 		memberDAO.updateMemberHobby(member);
+		memberDAO.insertMemberHobby(member);
 		return memberDAO.update(member);
 
+	}
+	public int insert(MemberVO member) throws ServletException, IOException {
+		//memberDAO.insert(member);
+	
+		return memberDAO.insert(member);
+	}
+	
+	public MemberVO insertForm(MemberVO member) throws ServletException, IOException {
+		MemberVO result = memberDAO.read(member);
+		if (result != null) {
+			result.setMember_hobbies(memberDAO.getMemberHobbies(member));
+		}
+		return result;
 	}
 	
 	public List<HobbyVO> getHobbyList() throws ServletException, IOException {

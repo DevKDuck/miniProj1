@@ -79,9 +79,8 @@ public class MemberServlet extends HttpServlet {
 		case "delete" -> memberController.delete(request, memberVO);
 		case "updateForm" -> memberController.updateForm(request, memberVO);
 		case "update" -> memberController.update(request, memberVO);
-////		case "insertForm" -> memberController.insertForm(request,response);
-//		case "insertForm" -> "insertForm"
-////		case "insert" -> insert(request, response);
+		case "insertForm" -> memberController.insertForm(request,memberVO);
+		case "insert" -> memberController.insert(request, memberVO);
 		default -> "";
 		};
 		if (result instanceof Map map) {

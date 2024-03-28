@@ -1,5 +1,4 @@
 
-
 const formToSerialize = (formId) => JSON.stringify([].reduce.call(document.querySelector('#' + formId), (data, element) => {
 	   //이름이 있는 것을 대상으로함 
 	    console.log(element);
