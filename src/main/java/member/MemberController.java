@@ -4,9 +4,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 public class MemberController {
@@ -102,5 +106,93 @@ public class MemberController {
 		}
 
 		return map;
+	}
+	
+	public Object existUserId(HttpServletRequest request, MemberVO memberVO) throws ServletException, IOException {
+		//1. 처리
+		System.out.println("existUserId userid->" + memberVO.getMember_id());
+		MemberVO existMember = memberService.view(memberVO);
+		Map<String, Object> map = new HashMap<>();
+		System.out.println(existMember);
+		
+		if (existMember == null) { //사용가능한 아이디
+			map.put("existMember", false);
+		} else { //사용 불가능 아아디 
+			map.put("existMember", true);
+		}
+		return map;
+	}
+	
+	public Object loginForm(HttpServletRequest request) {
+		return "loginForm";
+	}
+	public String login(HttpServletRequest request, MemberVO memberVO, HttpServletResponse response) throws ServletException, IOException {
+		MemberVO loginVO = memberService.view(memberVO);
+		System.out.println("loginVO" + loginVO);
+		if (memberVO.isEqualPassword(loginVO)) {
+			//로그인 사용자의 정보를 세션에 기록한다
+			HttpSession session = request.getSession();
+			session.setAttribute("loginVO", loginVO);
+			session.setMaxInactiveInterval(30*60*1000);
+			
+			if (memberVO.getAutologin().equals("Y")) {
+				//1. UUID를 생성하여 사용자 테이블의 uuid을 변경한다
+				String uuid = UUID.randomUUID().toString();
+				memberVO.setMember_uuid(uuid);
+				
+				memberService.updateUUID(memberVO);
+				
+				
+				//2. uuid값을 쿠키에 기록한다
+				Cookie uuidCookie = new Cookie("uuidCookie", uuid);
+				uuidCookie.setMaxAge(24 * 60 * 60); //24시간
+				uuidCookie.setPath("/");
+				
+				response.addCookie(uuidCookie);
+				
+			}
+			
+			
+		} else {
+			//map.put("statusMessage", "아이디 또는 비밀번호가 잘못되었습니다");
+			return "redirect:member.do?action=loginForm&err=invalidUserId";
+		}
+		
+		return "redirect:index.html";
+
+		
+	}
+
+	public Object logout(HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<>();
+		
+		//로그인 사용자의 정보를 세션에 제거한다
+		HttpSession session = request.getSession();
+		//세션에서 로그인 정보를 얻는다
+		MemberVO loginVO = (MemberVO) session.getAttribute("loginVO");
+		//로그아웃시 uuid값을 제거한다 
+		loginVO.setMember_uuid("");
+		memberService.updateUUID(loginVO);
+		
+		System.out.println("logout session id = " + session.getId());
+		session.removeAttribute("loginVO"); //특정 이름을 제거한다
+		session.invalidate(); //세션에 저장된 모든 자료를 삭제한다 
+		
+		return map;
+	}
+	
+	public Object mypage(HttpServletRequest request, MemberVO member) throws ServletException, IOException {
+		System.out.println("상세보기");
+		//String userid = request.getParameter("userid");
+		//1. 처리
+//		HttpSession session = request.getSession();
+//		UserVO loginVO = (UserVO) session.getAttribute("loginVO");
+//		if (loginVO == null) {
+//			return "redirect:user.do?action=loginForm";
+//		}
+//
+//		//2. jsp출력할 값 설정
+//		request.setAttribute("loginVO", loginVO);
+		return "mypage";
 	}
 }

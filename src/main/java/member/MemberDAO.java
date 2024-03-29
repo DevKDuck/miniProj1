@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class MemberDAO {
 	private static Connection conn = null;
 	private static PreparedStatement memberListPstmt = null;
@@ -20,6 +21,8 @@ public class MemberDAO {
 	private static PreparedStatement memberHobbiesUpdatePstmt = null;
 	private static PreparedStatement memberHobbiesInsertPstmt = null;
 
+	private static PreparedStatement memberFormUUIDPstmt = null;
+    private static PreparedStatement memberUpdateUUIDPstmt = null; 
 	
 	private static PreparedStatement member_idValidationPstmt = null;
 	private static PreparedStatement member_pwdValidationPstmt = null;
@@ -44,6 +47,9 @@ public class MemberDAO {
 			memberUpdatePstmt = conn.prepareStatement("UPDATE TB_MEMBER SET member_pwd = ?, member_name = ?, member_address = ?, member_phone_number = ?, member_gender = ? WHERE member_id = ?");
 			memberHobbiesUpdatePstmt = conn.prepareStatement("DELETE FROM TB_MemberHobby WHERE member_id = ?");
 			memberHobbiesInsertPstmt  = conn.prepareStatement("INSERT INTO TB_MemberHobby (member_id, hobby_id) VALUES (?, ?)");
+			
+			memberFormUUIDPstmt = conn.prepareStatement("select * from TB_MEMBER where member_uuid=?");
+			memberUpdateUUIDPstmt = conn.prepareStatement("update TB_MEMBER set member_uuid=? where member_id=?");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			
@@ -231,4 +237,44 @@ public class MemberDAO {
 	        }
 	        return result;
 	    }
+	    
+	    public int updateUUID(MemberVO members) {
+	        int updated = 0;
+	        try {
+	        	memberUpdateUUIDPstmt.setString(1, members.getMember_uuid());
+	        	memberUpdateUUIDPstmt.setString(2, members.getMember_id());
+	            updated = memberUpdateUUIDPstmt.executeUpdate();
+	            conn.commit();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return updated;
+
+	    }   
+	    
+	    public MemberVO getUserVOFromUUID(MemberVO member) {
+
+	    	MemberVO members = null;
+	        try {
+	        	memberFormUUIDPstmt.setString(1, member.getMember_uuid());
+
+	            ResultSet rs = memberFormUUIDPstmt.executeQuery();
+	            if (rs.next()) {
+	                members = MemberVO.builder()
+	                		.member_id(rs.getString("member_id"))
+	                		.member_pwd(rs.getString("member_pwd"))
+	                		.member_name(rs.getString("member_name"))
+	                		.member_address(rs.getString("member_address"))
+	                		.member_phonenumber(rs.getString("member_phonenumber"))
+	                		.member_uuid(rs.getString("member_uuid"))
+	                		.build();
+	            }
+	            rs.close();
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return members;
+	    }
+	   
 }

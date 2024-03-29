@@ -56,10 +56,8 @@
     		if(json.status == 0) {
     			//성공
     			alert("회원 가입을 성공 하였습니다"); 
-    			 location = "member.do?action=insert"; 
+    			 location = "index.html"; 
     			
-
-    			location = "index.html"; 
 
     		} else {
     			alert(json.statusMessage);

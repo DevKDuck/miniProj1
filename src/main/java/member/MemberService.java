@@ -6,8 +6,6 @@ import java.util.List;
 import javax.servlet.ServletException;
 
 
-
-
 public class MemberService {
 	
 	MemberDAO memberDAO = new MemberDAO();
@@ -58,5 +56,8 @@ public class MemberService {
 		return hobbyDAO.list();
 	}
 	
+	public void updateUUID(MemberVO memberVO) {
+		memberDAO.updateUUID(memberVO);
+	}
 }
 

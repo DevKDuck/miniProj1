@@ -81,6 +81,13 @@ public class MemberServlet extends HttpServlet {
 		case "update" -> memberController.update(request, memberVO);
 		case "insertForm" -> memberController.insertForm(request,memberVO);
 		case "insert" -> memberController.insert(request, memberVO);
+		
+		case "existUserId" -> memberController.existUserId(request, memberVO);
+		case "loginForm" -> memberController.loginForm(request);
+		case "login" -> memberController.login(request, memberVO, response);
+		case "logout" -> memberController.logout(request);
+		case "mypage" -> memberController.mypage(request, memberVO);
+		
 		default -> "";
 		};
 		if (result instanceof Map map) {
@@ -89,7 +96,7 @@ public class MemberServlet extends HttpServlet {
 			response.getWriter().append(objectMapper.writeValueAsString(map));
 		} else if (result instanceof String url) {
 			if (url.startsWith("redirect:")) {
-				// 리다이렉트
+				// 리다이렉트		
 				response.sendRedirect(url.substring("redirect:".length()));
 			} else {
 				// 3. jsp 포워딩
