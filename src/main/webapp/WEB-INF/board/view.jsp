@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<%@ page import="member.MemberVO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +8,20 @@
 <title>Insert title here</title>
 </head>
 <body>
+
+
+ <%
+// 세션에서 MemberID 값을 가져옵니다.
+Object s = session.getAttribute("loginVO");
+ String memberID = null;
+ if (s != null) {
+     // loginVO 클래스로 캐스팅하여 getMember_id() 메서드 호출
+     if (s instanceof MemberVO) {
+    	 MemberVO login = (MemberVO) s;
+         memberID = login.getMember_id();
+     }
+ }
+ %> 
 <h1> view </h1>
  <label>번호 : ${view.bno}</label> <br/>
  <label>제목  : ${view.btitle}</label> <br/>
@@ -21,15 +35,14 @@
     <input type="hidden" id="action" name="action" value="">
     <input type="hidden" id="bnoInput" name= "bno" value= "${view.bno}">
     
-    
-    
+    <c:if test="${view.member_id eq memberID}">
         <input type="button" value="삭제" onclick="jsDelete()">
-    
-    
-    
-    
+    </c:if>
+    <c:if test="${view.member_id eq memberID}">
         <input type="button" value="수정" onclick="jsUpdateForm()">
+    </c:if>
     
+ 
 </form>
 
 <script>
