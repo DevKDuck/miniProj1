@@ -28,24 +28,44 @@
       <label>주소: ${loginVO.member_address}</label><br/>
       <label>번호: ${loginVO.member_phonenumber}</label><br/>
       <label>성별: ${loginVO.member_gender}</label><br/>
+      <label>취미: ${loginVO.hobby_name}</label><br/>
+      
+<!-- 두개의 폼을 하나로 합치는 방법 , js를 사용하여 처리  -->
+<form id="viewForm" method="post" action="member.do">
+	<input type="hidden" id="action" name="action" value="">
+	<input type="hidden" id="member_id" name="member_id" value="${loginVO.member_id}">
+	<input type="button" value="삭제" onclick="jsDelete()">
+	<input type="button" value="수정" onclick="jsUpdateForm()">
+</form>   
+ <script>
 
-<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
-<script>
 function jsDelete() {
-	if (confirm("정말로 탈퇴하시겠습니까?")) {
-		action.value = "delete";
-		myFetch("member.do", "viewForm", json => {
-			if(json.status == 0) {
-				//성공
-				alert("회원정보를 삭제 하였습니다");
-				location = "member.do?action=list";
-			} else {
-				alert(json.statusMessage);
-			}
-		});
-	}
+	if (confirm("정말로 삭제하시겠습니까?")) {
+		 const member_id = document.getElementById("member_id");
+	    	//fetch를 사용하여 회원 가입을 함
+	    	//전송자료 구성 
+	    	const param = {
+				 action : 'delete'
+				,member_id : member_id.value
+	    	} 
+		    	
+			fetch("member.do", {
+				method:"POST",
+				body:JSON.stringify(param),
+				headers : {"Content-type" : "application/json; charset=utf-8"}
+			}).then(res => res.json()).then(json => {
+				//서버로 부터 받은 결과를 사용해서 처리 루틴 구현  
+				console.log("json ", json );
+				if(json.status == 0) {
+					//성공
+					alert("회원정보를 삭제 하였습니다");
+					location = "member.do?action=logout";
+				} else {
+					alert(json.statusMessage);
+				}
+			});
+	}	
 }
-
 function jsUpdateForm() {
 	if (confirm("정말로 수정하시겠습니까?")) {
 		//서버의 URL을 설정한다 
@@ -57,14 +77,7 @@ function jsUpdateForm() {
 }
 
 </script>
-<!-- 두개의 폼을 하나로 합치는 방법 , js를 사용하여 처리  -->
-	<form id="viewForm" method="post" action="member.do">
-		<input type="hidden" id="action" name="action" value="">
-		<input type="hidden" id="member_id" name="member_id" value="${member.member_id}">
-		<input type="button" value="삭제" onclick="jsDelete()">
-		<input type="button" value="수정" onclick="jsUpdateForm()">
-	</form>     
- 
+
 </body>
 </html>
 
