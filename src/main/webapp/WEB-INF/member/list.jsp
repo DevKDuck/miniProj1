@@ -48,6 +48,8 @@
 <th>성별</th>
 </tr>
 
+
+
 <c:forEach var="member" items="${list}" >
 <tr>
 <td onclick="jsView('${member.member_id}')" style="cursor:pointer;">${member.member_id} </td>
@@ -57,6 +59,8 @@
 </tr>
 </c:forEach>
 </table>
+
+
 <script>
 function jsView(memberid){
 	member_id.value = memberid;

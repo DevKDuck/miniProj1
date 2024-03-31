@@ -1,5 +1,6 @@
 package board;
 
+import java.security.Timestamp;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import member.MemberVO;
+
 
 
 
@@ -32,7 +33,8 @@ public class BoardDAO {
 			 boardDetailPstmt = conn.prepareStatement("SELECT B.*, M.member_name bwriter FROM TB_BOARD B inner join TB_MEMBER M on B.member_id = M.member_id where B.bno = ?");
 			 boardDeletePstmt = conn.prepareStatement("DELETE FROM TB_BOARD WHERE bno = ?");
 			 boardUpdatePstmt = conn.prepareStatement("UPDATE TB_BOARD  SET btitle = ?, bcontent  = ?,  bdate = NOW(),  bViewCount = 1 WHERE bno = ?");
-//			 boardInsertPstmt = conn.prepareStatement("insert into TB_BOARD (bno , btitle, bcontent , member_id , bdate , bViewCount) values (?, ?, ?, ? ,?, ?);");
+			 boardInsertPstmt = conn.prepareStatement("INSERT INTO TB_BOARD (btitle, bcontent, member_id, bdate, bViewCount) VALUES (?, ?, ?, NOW(), ?)");
+
 			 
 			 
 		} catch (ClassNotFoundException e) {
@@ -117,6 +119,23 @@ public class BoardDAO {
 	            updated = boardUpdatePstmt.executeUpdate();
 	            conn.commit();
 	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return updated;
+	    }
+	  
+	  public int insert(BoardVO board){
+	        int updated = 0;
+	        try{
+	        	boardInsertPstmt.setString(1, board.getBtitle()); // 첫 번째 ? 에 btitle 값을 설정
+	        	boardInsertPstmt.setString(2, board.getBcontent()); // 두 번째 ? 에 bcontent 값을 설정
+	        	boardInsertPstmt.setString(3, board.getMember_id()); // 세 번째 ? 에 member_id 값을 설정
+
+	        	boardInsertPstmt.setInt(4, 0); //
+
+	            updated = boardInsertPstmt.executeUpdate();
+	            conn.commit();
+	        }catch (Exception e){
 	            e.printStackTrace();
 	        }
 	        return updated;

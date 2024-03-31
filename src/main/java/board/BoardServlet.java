@@ -80,8 +80,8 @@ public class BoardServlet extends HttpServlet {
 		case "delete" -> boardController.delete(request, boardVO);
 		case "updateForm" -> boardController.updateForm(request, boardVO);
 		case "update" -> boardController.update(request, boardVO);
-//		case "insertForm" -> boardController.list(request,BoardVO);
-//		case "insert" -> boardController.insert(request, BoardVO);
+		case "insertForm" -> boardController.insertForm(request,boardVO);
+		case "insert" -> boardController.insert(request, boardVO);
 		default -> "";
 		};
 		if (result instanceof Map map) {

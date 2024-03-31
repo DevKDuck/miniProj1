@@ -58,6 +58,36 @@
 </c:forEach>
 </table>
 
+<form id="insertForm" action="board.do" method="post">
+<input type="hidden" name="action" value="insertForm">
+<input type = "submit" value="등록">
+</form>
+
+<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
+    
+    <script type="text/javascript">
+    
+    const rForm = document.getElementById("insertForm");
+     
+    rForm.addEventListener("submit", e => {
+    	//서버에 form data를 전송하지 않는다 
+    	e.preventDefault();
+    	
+    	var isLoggedIn = <%= session.getAttribute("loginVO") != null %>;
+       
+        
+    	if (isLoggedIn == false){
+    		alert("로그인을 해주세요.")
+    		return false
+    	}else{
+    		rForm.submit();
+    	}
+    	
+  
+    });
+    </script> 
+
+
 <script>
 function jsView(bno){
     document.getElementById('bnoInput').value = bno;

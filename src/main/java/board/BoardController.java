@@ -26,36 +26,36 @@ public class BoardController {
 		return "list";
 	}
 
-//	public Object insertForm(HttpServletRequest request, BoardVO member) throws ServletException, IOException {
-//		System.out.println("등록화면");
-//		
-//		request.setAttribute("member", BoardService.insertForm(member));
-//		request.setAttribute("hobbyList", BoardService.getHobbyList());
-//
-//		return "insertForm";
-//	}
-//	
-//	
-//	public Object insert(HttpServletRequest request, BoardVO member) throws ServletException, IOException {
-//		System.out.println("등록");
-//		Map<String, Object> map = new HashMap<>();
-//		
-//		if (member.getMember_id() == null  || member.getMember_id().length() == 0) {
-//			map.put("status", -1);
-//			map.put("statusMessage", "사용자 아이디는 null 이거나 길이가 0인 문자열을 사용할 수 없습니다");
-//		} else {
-//			//1. 처리
-//			int updated = BoardService.insert(member);
-//			
-//			if (updated == 1) { //성공
-//				map.put("status", 0);
-//			} else {
-//				map.put("status", -99);
-//				map.put("statusMessage", "회원 가입이 실패하였습니다");
-//			}
-//		}
-//		return map;
-//	}
+	public Object insertForm(HttpServletRequest request, BoardVO board) throws ServletException, IOException {
+		System.out.println("등록화면");
+		
+		request.setAttribute("board", boardService.insertForm(board));
+		
+
+		return "insertForm";
+	}
+	
+
+	public Object insert(HttpServletRequest request, BoardVO board) throws ServletException, IOException {
+		System.out.println("등록");
+		Map<String, Object> map = new HashMap<>();
+		
+		if (board.getMember_id() == null  || board.getMember_id().length() == 0) {
+			map.put("status", -1);
+			map.put("statusMessage", "사용자 아이디는 null 이거나 길이가 0인 문자열을 사용할 수 없습니다");
+		} else {
+			//1. 처리
+			int updated = boardService.insert(board);
+			
+			if (updated == 1) { //성공
+				map.put("status", 0);
+			} else {
+				map.put("status", -99);
+				map.put("statusMessage", "회원 가입이 실패하였습니다");
+			}
+		}
+		return map;
+	}
 //
 	public Object view(HttpServletRequest request, BoardVO board) throws ServletException, IOException {
 		System.out.println("상세보기");

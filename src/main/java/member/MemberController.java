@@ -136,7 +136,6 @@ public class MemberController {
 			HttpSession session = request.getSession();
 			session.setAttribute("loginVO", loginVO);
 			
-			
 			if ("bituser".equals(loginVO.getMember_id())) {
 				System.out.println("bituser!!!!!!!");
 				

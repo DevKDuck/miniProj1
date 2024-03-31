@@ -34,17 +34,17 @@ public class BoardService {
 		return boardDAO.update(board);
 
 	}
-//	public int insert(BoardVO board) throws ServletException, IOException {
-//		//memberDAO.insert(member);
-//	
-//		return boardDAO.insert(board);
-//	}
-//	
-//	public BoardVO insertForm(BoardVO board) throws ServletException, IOException {
-//		BoardVO result = boardDAO.read(board);
-//		return result;
-//	}
-//	
+	public int insert(BoardVO board) throws ServletException, IOException {
+		//memberDAO.insert(member);
+	
+		return boardDAO.insert(board);
+	}
+	
+	public BoardVO insertForm(BoardVO board) throws ServletException, IOException {
+		BoardVO result = boardDAO.read(board);
+		return result;
+	}
+	
 	
 	
 

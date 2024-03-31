@@ -17,16 +17,26 @@
  <label>본 횟수  : ${view.bcount}</label> <br/>
  <label>작성자  : ${view.bwriter}</label> <br/>
  
- 
  <form id="viewForm" action="board.do" method="post">
- 		<input type="hidden" id="action" name="action" value="">
-    	<input type="hidden" id="bnoInput" name= "bno" value= "${view.bno}">
-    	<input type="button" value="삭제" onclick="jsDelete()">
-		<input type="button" value="수정" onclick="jsUpdateForm()">
- </form> 
+    <input type="hidden" id="action" name="action" value="">
+    <input type="hidden" id="bnoInput" name= "bno" value= "${view.bno}">
+    
+    
+    
+        <input type="button" value="삭제" onclick="jsDelete()">
+    
+    
+    
+    
+        <input type="button" value="수정" onclick="jsUpdateForm()">
+    
+</form>
+
 <script>
 
 function jsDelete() {
+	
+	
 	if (confirm("정말로 삭제하시겠습니까?")) {
 		 const bno = document.getElementById("bnoInput").value;
 		
