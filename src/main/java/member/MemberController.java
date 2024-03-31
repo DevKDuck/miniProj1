@@ -128,11 +128,25 @@ public class MemberController {
 	}
 	public String login(HttpServletRequest request, MemberVO memberVO, HttpServletResponse response) throws ServletException, IOException {
 		MemberVO loginVO = memberService.view(memberVO);
+				System.out.println();
+				
 		System.out.println("loginVO" + loginVO);
 		if (memberVO.isEqualPassword(loginVO)) {
 			//로그인 사용자의 정보를 세션에 기록한다
 			HttpSession session = request.getSession();
 			session.setAttribute("loginVO", loginVO);
+			
+			
+			if ("bituser".equals(loginVO.getMember_id())) {
+				System.out.println("bituser!!!!!!!");
+				
+				session.setAttribute("managerID", true);	
+			}else {
+				
+				System.out.println("bituser아님!!!!");
+				session.setAttribute("managerID", null);
+			}
+			
 			session.setMaxInactiveInterval(30*60*1000);
 			
 			if (memberVO.getAutologin().equals("Y")) {
@@ -157,14 +171,15 @@ public class MemberController {
 			//map.put("statusMessage", "아이디 또는 비밀번호가 잘못되었습니다");
 			return "redirect:member.do?action=loginForm&err=invalidUserId";
 		}
-		
-		return "redirect:index.html";
+
+
+		return "redirect:main.jsp";
 
 		
 	}
 
 	public Object logout(HttpServletRequest request) {
-		Map<String, Object> map = new HashMap<>();
+//		Map<String, Object> map = new HashMap<>();
 		
 		//로그인 사용자의 정보를 세션에 제거한다
 		HttpSession session = request.getSession();
@@ -174,11 +189,13 @@ public class MemberController {
 		loginVO.setMember_uuid("");
 		memberService.updateUUID(loginVO);
 		
+		
 		System.out.println("logout session id = " + session.getId());
 		session.removeAttribute("loginVO"); //특정 이름을 제거한다
+		
 		session.invalidate(); //세션에 저장된 모든 자료를 삭제한다 
 		
-		return map;
+		return "redirect:main.jsp";
 	}
 	
 	public Object mypage(HttpServletRequest request, MemberVO member) throws ServletException, IOException {
