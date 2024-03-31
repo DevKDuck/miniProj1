@@ -20,7 +20,7 @@ public class BoardDAO {
 	private static PreparedStatement boardInsertPstmt = null;
 	private static PreparedStatement boardDeletePstmt = null;
 	private static PreparedStatement boardUpdatePstmt = null;
-	
+	private static PreparedStatement boardViewCountUpdatePstmt = null;
 	static {
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
@@ -34,7 +34,7 @@ public class BoardDAO {
 			 boardDeletePstmt = conn.prepareStatement("DELETE FROM TB_BOARD WHERE bno = ?");
 			 boardUpdatePstmt = conn.prepareStatement("UPDATE TB_BOARD  SET btitle = ?, bcontent  = ?,  bdate = NOW(),  bViewCount = 1 WHERE bno = ?");
 			 boardInsertPstmt = conn.prepareStatement("INSERT INTO TB_BOARD (btitle, bcontent, member_id, bdate, bViewCount) VALUES (?, ?, ?, NOW(), ?)");
-
+			 boardViewCountUpdatePstmt = conn.prepareStatement("UPDATE TB_BOARD SET bViewCount = bViewCount + 1 WHERE bno = ? ");
 			 
 			 
 		} catch (ClassNotFoundException e) {
@@ -75,6 +75,10 @@ public class BoardDAO {
 	  public BoardVO read(BoardVO board) {
 		  BoardVO boards = null;
 	        try {
+	        	boardViewCountUpdatePstmt.setInt(1,board.getBno());
+	        	
+	            boardViewCountUpdatePstmt.executeQuery();
+	            
 	        	boardDetailPstmt.setInt(1, board.getBno());
 
 	            ResultSet rs = boardDetailPstmt.executeQuery();
@@ -89,6 +93,8 @@ public class BoardDAO {
 	                        );
 	            }
 	            rs.close();
+	            
+	            
 
 	        } catch (Exception e) {
 	            e.printStackTrace();

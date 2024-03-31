@@ -5,10 +5,48 @@
 <head>
 <meta charset="UTF-8">
 <title>update화면입니다</title>
+
+<style>
+body {
+            background-color: #f6f6f6;
+            font-family: Arial, sans-serif;
+        }
+           label {
+            color: #333; /* 흑색 텍스트 */
+            font-size: 18px;
+            margin-bottom: 10px; /* 라벨 간격 조정 */
+            
+        }
+              h1 {
+            color: coral; /* 코랄색 텍스트 */
+            font-size: 36px;
+            text-align: center; /* 가운데 정렬 */
+            margin-bottom: 30px; /* 헤더 아래 여백 */
+        }
+
+        /* 입력 필드 스타일 */
+        input[type="text"],
+        input[type="password"] {
+            width: 100%; /* 너비를 컨테이너 너비에 맞춤 */
+            padding: 10px; /* 내부 여백 추가 */
+            border: 1px solid #ccc; /* 회색 테두리 */
+            border-radius: 5px; /* 둥근 테두리 설정 */
+            margin-bottom: 20px; /* 아래쪽 여백 추가 */
+            box-sizing: border-box; /* 패딩과 테두리를 요소의 크기에 포함 */
+        }
+
+        /* 입력 필드 포커스 시 스타일 */
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none; /* 포커스 테두리 제거 */
+            border-color: #66afe9; /* 포커스 시 파란색 테두리 */
+        }
+</style>
+
 </head>
 <body>
 
- <h1>회원정보 수정양식</h1>
+ <h1>회원정보 수정</h1>
  	<form id="updateForm" action="member.do" method="post">
     	<input type="hidden" name="action" value="update">
         <label>아이디 : </label> <input type="text" id="member_id" name="member_id" value="${member.member_id}" readonly="readonly"> <br/>
@@ -20,9 +58,9 @@
         <label>성별 : </label>  
         	<input type="radio" id="member_gender1" name="member_gender" value="남" ${"남".equals(member.member_gender) ? "checked='checked'" : ""}> <label for="member_gender1" >남자</label>
         	<input type="radio" id="member_gender2" name="member_gender" value="여" ${"여".equals(member.member_gender) ? "checked='checked'" : ""}> <label for="member_gender2" >여자</label> <br/>
-        <label>취미 : </label> <br/>
+        <label>취미 : </label> 
         	<c:forEach var="hobby" items="${hobbyList}">
-	        	<input type="checkbox" id="member_hobby_${hobby.hobby_id}" name="hobbies" value="${hobby.hobby_id}" ${member.isCheckedHobbyId(hobby.hobby_id) ? 'checked=checked' : ''}> <label for="member_hobby_${hobby.hobby_id}">${hobby.hobby_name}</label> <br/>
+	        	<input type="checkbox" id="member_hobby_${hobby.hobby_id}" name="hobbies" value="${hobby.hobby_id}" ${member.isCheckedHobbyId(hobby.hobby_id) ? 'checked=checked' : ''}> <label for="member_hobby_${hobby.hobby_id}">${hobby.hobby_name}</label> 
         	</c:forEach>  
 	    <div>
 	        <input type="submit" value="수정">

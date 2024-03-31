@@ -6,24 +6,58 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<style>
+        
+        
+        body {
+            background-color: #f6f6f6;
+            font-family: Arial, sans-serif;
+        }
+           label {
+            color: #333; /* 흑색 텍스트 */
+            font-size: 30px;
+            margin-bottom: 10px; /* 라벨 간격 조정 */
+           
+            
+        }
+        
+        .container {
+            text-align: center; /* 가운데 정렬 */
+            margin-bottom: 20px; /* 아래쪽 여백 */
+        }
+              h1 {
+            color: coral; /* 코랄색 텍스트 */
+            font-size: 36px;
+            text-align: center; /* 가운데 정렬 */
+            margin-bottom: 30px; /* 헤더 아래 여백 */
+        }
+    </style>
 </head>
 <body>
 <h1> view </h1>
- <label>아이디 : ${view.member_id}</label> <br/>
- <label>비번  : ${view.member_pwd}</label> <br/>
- <label>이름  : ${view.member_name}</label> <br/>
- <label>주소  : ${view.member_address}</label> <br/>
- <label>번호  : ${view.member_phonenumber}</label> <br/>
- <label>성별  : ${view.member_gender}</label> <br/>
- <label>취미  : ${view.hobby_name}</label> <br/>
+<br><br>
  
+ <div class="container">
+ <br><label>아이디 : ${view.member_id}</label> <br/>
+ <br><label>비번  : ${view.member_pwd}</label> <br/>
+ <br><label>이름  : ${view.member_name}</label> <br/>
+ <br><label>주소  : ${view.member_address}</label> <br/>
+ <br><label>번호  : ${view.member_phonenumber}</label> <br/>
+ <br><label>성별  : ${view.member_gender}</label> <br/>
+ <br><label>취미  : ${view.hobby_name}</label> <br/>
  
+ <br><br>
  <form id="viewForm" action="member.do" method="post">
  		<input type="hidden" id="action" name="action" value="">
     	<input type="hidden" id="member_id" name= "member_id" value= "${view.member_id}">
     	<input type="button" value="삭제" onclick="jsDelete()">
 		<input type="button" value="수정" onclick="jsUpdateForm()">
  </form> 
+ 
+ <br>
+ <a href="main.jsp">main이동</a>
+ </div>
 <script>
 /* const member_id = document.getElementById("member_id") */
 function jsDelete() {

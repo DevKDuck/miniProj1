@@ -9,43 +9,73 @@
 </head>
 <body>
 
+ <style>
+        
+        
+        body {
+            background-color: #f6f6f6;
+            font-family: Arial, sans-serif;
+        }
+           label {
+            color: #333; /* 흑색 텍스트 */
+            font-size: 30px;
+            margin-bottom: 10px; /* 라벨 간격 조정 */
+           
+            
+        }
+        
+        .container {
+            text-align: center; /* 가운데 정렬 */
+            margin-bottom: 20px; /* 아래쪽 여백 */
+        }
+              h1 {
+            color: coral; /* 코랄색 텍스트 */
+            font-size: 36px;
+            text-align: center; /* 가운데 정렬 */
+            margin-bottom: 30px; /* 헤더 아래 여백 */
+        }
+    </style>
 
+
+  
+<h1> view </h1>
  <%
 // 세션에서 MemberID 값을 가져옵니다.
 Object s = session.getAttribute("loginVO");
- String memberID = null;
+ String memberID = "1";
  if (s != null) {
      // loginVO 클래스로 캐스팅하여 getMember_id() 메서드 호출
      if (s instanceof MemberVO) {
     	 MemberVO login = (MemberVO) s;
-         memberID = login.getMember_id();
+         memberID = "1";
      }
- }
+ } 
  %> 
-<h1> view </h1>
- <label>번호 : ${view.bno}</label> <br/>
- <label>제목  : ${view.btitle}</label> <br/>
- <label>내용  : ${view.bcontent}</label> <br/>
- <label>아이디  : ${view.member_id}</label> <br/>
- <label>날짜  : ${view.bdate}</label> <br/>
- <label>본 횟수  : ${view.bcount}</label> <br/>
- <label>작성자  : ${view.bwriter}</label> <br/>
- 
+ <br>
+ <br>
+ <div class="container">
+ <br><label>번호 : ${view.bno}</label> <br/>
+ <br><label>제목  : ${view.btitle}</label> <br/>
+ <br><label>내용  : ${view.bcontent}</label> <br/>
+ <br><label>아이디  : ${view.member_id}</label> <br/>
+ <br><label>날짜  : ${view.bdate}</label> <br/>
+ <br><label>본 횟수  : ${view.bcount}</label> <br/>
+ <br><label>작성자  : ${view.bwriter}</label> <br/>
+ <br><br>
  <form id="viewForm" action="board.do" method="post">
     <input type="hidden" id="action" name="action" value="">
     <input type="hidden" id="bnoInput" name= "bno" value= "${view.bno}">
     
-    <c:if test="${view.member_id eq memberID and view.member_id eq 'bituser'}">
-
+    <!-- 이부분 자료형때문인지 해결해야됨 -->
+    <c:if test="${view.member_id eq '1' or view.member_id eq 'bituser'}">
         <input type="button" value="삭제" onclick="jsDelete()">
-    </c:if>
-    <c:if test="${view.member_id eq memberID and view.member_id eq 'bituser'}">
         <input type="button" value="수정" onclick="jsUpdateForm()">
-    </c:if>
-    
+     </c:if> </br>
+<br><br>
+    <a href="board.do?action=list" >게시판 돌아가기</a>
  
 </form>
-
+</div>
 <script>
 
 function jsDelete() {
@@ -70,7 +100,7 @@ function jsDelete() {
 				console.log("json ", json );
 				if(json.status == 0) {
 					//성공
-					alert("회원정보를 삭제 하였습니다");
+					alert("게시물을 삭제 하였습니다");
 					location = "board.do?action=list";
 				} else {
 					alert(json.statusMessage);

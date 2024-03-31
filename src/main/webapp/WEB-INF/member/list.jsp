@@ -7,30 +7,42 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
+		body {
+            background-color: #f6f6f6;
+            font-family: Arial, sans-serif;
+            }
+        
+        
+        h1 {
+            color: coral; /* 코랄색 텍스트 */
+            font-size: 36px;
+            text-align: center; /* 가운데 정렬 */
+            margin-bottom: 30px; /* 헤더 아래 여백 */
         }
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-        .button-container {
-            margin-top: 20px;
-        }
-        .button-container button {
-            padding: 10px 20px;
-            font-size: 16px; 
-            background-color: #f5f5f5;
-        }
-    </style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 20px;
+        text-align: left;
+        border-bottom: 1px solid #ccc;
+    }
+    th {
+        background-color: white;
+    }
+    tr:hover {
+        background-color: coral;
+    }
+    .button-container {
+        margin-top: 20px;
+    }
+    .button-container button {
+        padding: 10px 20px;
+        font-size: 16px; 
+        background-color: lightcoral;
+    }
+</style>
 </head>
 <body>
 <h1> Memberlist Page</h1>

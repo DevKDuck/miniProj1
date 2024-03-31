@@ -9,34 +9,56 @@
     <meta charset="UTF-8">
     <title>나의페이지</title>
     <style>
-        label {
-            display: inline-block;
-            width: 200px;
+        
+        
+        body {
+            background-color: #f6f6f6;
+            font-family: Arial, sans-serif;
         }
-        input {
-            margin-bottom: 10px; 
+           label {
+            color: #333; /* 흑색 텍스트 */
+            font-size: 30px;
+            margin-bottom: 10px; /* 라벨 간격 조정 */
+           
+            
+        }
+        
+        .container {
+            text-align: center; /* 가운데 정렬 */
+            margin-bottom: 20px; /* 아래쪽 여백 */
+        }
+              h1 {
+            color: coral; /* 코랄색 텍스트 */
+            font-size: 36px;
+            text-align: center; /* 가운데 정렬 */
+            margin-bottom: 30px; /* 헤더 아래 여백 */
         }
     </style>
 </head>
 <body>
+    <br>
     <h1>
        나의페이지
     </h1>
-   
-      <label>아이디 : ${loginVO.member_id}</label> <br/>
-      <label>이름 : ${loginVO.member_name}</label><br/>
-      <label>주소: ${loginVO.member_address}</label><br/>
-      <label>번호: ${loginVO.member_phonenumber}</label><br/>
-      <label>성별: ${loginVO.member_gender}</label><br/>
-      <label>취미: ${loginVO.hobby_name}</label><br/>
+    <br>
+    <br>
+   <div class="container">
+     <br> <label>아이디 : ${loginVO.member_id}</label> <br/>
+      <br><label>이름 : ${loginVO.member_name}</label><br/>
+      <br><label>주소: ${loginVO.member_address}</label><br/>
+      <br><label>번호: ${loginVO.member_phonenumber}</label><br/>
+      <br><label>성별: ${loginVO.member_gender}</label><br/>
+      <br><label>취미: ${loginVO.hobby_name}</label><br/>
       
 <!-- 두개의 폼을 하나로 합치는 방법 , js를 사용하여 처리  -->
+<br><br>
 <form id="viewForm" method="post" action="member.do">
 	<input type="hidden" id="action" name="action" value="">
 	<input type="hidden" id="member_id" name="member_id" value="${loginVO.member_id}">
 	<input type="button" value="삭제" onclick="jsDelete()">
 	<input type="button" value="수정" onclick="jsUpdateForm()">
 </form>   
+</div>
  <script>
 
 function jsDelete() {

@@ -7,20 +7,32 @@
 <meta charset="UTF-8">
 <title>Board Page</title>
 <style>
+		body {
+            background-color: #f6f6f6;
+            font-family: Arial, sans-serif;
+            }
+        
+        
+        h1 {
+            color: coral; /* 코랄색 텍스트 */
+            font-size: 36px;
+            text-align: center; /* 가운데 정렬 */
+            margin-bottom: 30px; /* 헤더 아래 여백 */
+        }
     table {
         width: 100%;
         border-collapse: collapse;
     }
     th, td {
-        padding: 8px;
+        padding: 20px;
         text-align: left;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid #ccc;
     }
     th {
-        background-color: #f2f2f2;
+        background-color: white;
     }
     tr:hover {
-        background-color: #f5f5f5;
+        background-color: coral;
     }
     .button-container {
         margin-top: 20px;
@@ -28,12 +40,12 @@
     .button-container button {
         padding: 10px 20px;
         font-size: 16px; 
-        background-color: #f5f5f5;
+        background-color: lightcoral;
     }
 </style>
 </head>
 <body>
-<h1>Board Page</h1>
+<h1>게시판</h1>
 
 <form id="listForm" action="board.do" method="post">
     <input type="hidden" id="action" name="action" value="view">
@@ -62,6 +74,7 @@
 <input type="hidden" name="action" value="insertForm">
 <input type = "submit" value="등록">
 </form>
+<a href= "main.jsp">메인으로 돌아가기</a>
 
 <script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
     

@@ -53,6 +53,10 @@ Resources
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>miniProject1</title>
     <style>
+    body {
+            background-color: #f6f6f6;
+            font-family: Arial, sans-serif;
+        }
         h1 {
             text-align: center;
             color: coral;
@@ -81,7 +85,7 @@ Resources
                 
                    <li id="mypageMenu" style="display: none;"><a href="#">마이페이지</a>
                     <ul class="subMenu">
-                        <li><a href="member.do?action=insertForm">마이페이지</a></li>
+                        <li><a href="member.do?action=mypage">마이페이지</a></li>
                     </ul>
                 </li>
                 
