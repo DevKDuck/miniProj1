@@ -35,10 +35,11 @@ Object s = session.getAttribute("loginVO");
     <input type="hidden" id="action" name="action" value="">
     <input type="hidden" id="bnoInput" name= "bno" value= "${view.bno}">
     
-    <c:if test="${view.member_id eq memberID}">
+    <c:if test="${view.member_id eq memberID and view.member_id eq 'bituser'}">
+
         <input type="button" value="삭제" onclick="jsDelete()">
     </c:if>
-    <c:if test="${view.member_id eq memberID}">
+    <c:if test="${view.member_id eq memberID and view.member_id eq 'bituser'}">
         <input type="button" value="수정" onclick="jsUpdateForm()">
     </c:if>
     
