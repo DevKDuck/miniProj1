@@ -111,16 +111,19 @@ public class MemberController {
 	public Object existUserId(HttpServletRequest request, MemberVO memberVO) throws ServletException, IOException {
 		//1. 처리
 		System.out.println("existUserId userid->" + memberVO.getMember_id());
-		MemberVO existMember = memberService.view(memberVO);
-		Map<String, Object> map = new HashMap<>();
-		System.out.println(existMember);
 		
-		if (existMember == null) { //사용가능한 아이디
-			map.put("existMember", false);
-		} else { //사용 불가능 아아디 
-			map.put("existMember", true);
-		}
-		return map;
+		
+		Map<String, Object> map = new HashMap<>();
+		
+
+	    MemberVO existMember = memberService.view(memberVO);
+	    if (existMember == null) { // 사용 가능한 아이디
+	    	map.put("existMember", false);
+	        
+	    } else { // 사용 불가능 아이디
+	        map.put("existMember", true);
+	    }
+	    return map;
 	}
 	
 	public Object loginForm(HttpServletRequest request) {

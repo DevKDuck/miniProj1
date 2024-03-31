@@ -47,14 +47,21 @@ body {
 </head>
 <body>
 <h1> 회원 가입 </h1>
+<form id="duplicateForm" action="member.do" method="post">
+<label>아이디</label> <input type="button" id="duplicateId" value="중복확인">
+<input type="hidden" name="action" value="existUserId">
+</form>
 <form id="insertForm" action="member.do" method="post">
     	<input type="hidden" name="action" value="insert">
-        <label>아이디 : </label> <input type="text" id="member_id" name="member_id" value="${member.member_id}" required="required"> <br/>
-        <label>비밀번호 : </label>   <input type="password" id="member_pwd" name="member_pwd" required="required"><br/>
-        <label>비밀번호확인 : </label>   <input type="password" id="member_pwd2" name="member_pwd2" required="required"><br/>
-        <label>이름 : </label>   <input type="text" id="member_name" name="member_name" value="${member.member_name}" required="required"><br/>
-        <label>주소: </label>    <input type="text" id="member_address" name="member_address" value="${member.member_address}" required="required"><br/>
-        <label>번호: </label>  <input type="text" id="member_phonenumber" name="member_phonenumber" value="${member.member_phonenumber}" required="required"><br/>
+    	
+         
+        <input type="text" id="member_id" name="member_id" value="${member.member_id}" required="required"> <br/>
+        
+        <label>비밀번호</label>   <input type="password" id="member_pwd" name="member_pwd" required="required"><br/>
+        <label>비밀번호확인</label>   <input type="password" id="member_pwd2" name="member_pwd2" required="required"><br/>
+        <label>이름</label>   <input type="text" id="member_name" name="member_name" value="${member.member_name}" required="required"><br/>
+        <label>주소</label>    <input type="text" id="member_address" name="member_address" value="${member.member_address}" required="required"><br/>
+        <label>번호</label>  <input type="text" id="member_phonenumber" name="member_phonenumber" value="${member.member_phonenumber}" required="required"><br/>
         <label>성별 : </label>  
         	<input type="radio" id="member_gender1" name="member_gender" value="남" ${"남".equals(member.member_gender) ? "checked='checked'" : ""}> <label for="member_gender1" >남자</label>
         	<input type="radio" id="member_gender2" name="member_gender" value="여" ${"여".equals(member.member_gender) ? "checked='checked'" : ""}> <label for="member_gender2" >여자</label> <br/>
@@ -74,11 +81,13 @@ body {
     <script type="text/javascript">
     
     const rForm = document.getElementById("insertForm");
+    
     /* document.querySelector('#insertForm) */
      
      rForm.addEventListener("submit", e => {
     	//서버에 form data를 전송하지 않는다 
     	e.preventDefault();
+    	
     	
     	if (member_pwd.value != member_pwd2.value) {
         	
@@ -101,6 +110,39 @@ body {
     		}
     	});
     });
+     const duplicateForm = document.getElementById("duplicateForm");
+     //click 이벤트 핸들러 등록
+ 	duplicateForm.addEventListener("click", () => {
+ 		const member_id = document.getElementById("member_id");
+ 		
+ 		if (member_id.value == "") {
+ 			alert("아이디를 입력해주세요");
+ 			member_id.focus();
+ 			return;
+ 		}
+ 		
+		const param = {
+				action : "existUserId",
+				member_id : member_id.value
+			}
+ 		
+ 		
+		fetch("member.do", {
+			method:"POST",
+			body:JSON.stringify(param),
+			headers : {"Content-type" : "application/json; charset=utf-8"}
+		}).then(res => res.json()).then(json => {
+			//서버로 부터 받은 결과를 사용해서 처리 루틴 구현  
+			console.log("json ", json );
+			if (json.existMember == true) {
+				alert("해당 아이디는 사용 중 입니다.");
+				validUserId = "";
+			} else {
+				alert("사용가능한 아이디 입니다.");
+				validUserId = member_id.value;
+			}
+		});
+ 	});
     </script> 
 </body>
 </html>
