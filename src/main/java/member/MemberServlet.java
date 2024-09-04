@@ -14,22 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-/**
- * Servlet implementation class memberController
- */
 @WebServlet("/member.do")
 public class MemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
 
 	MemberController memberController = new MemberController();
 
 	public MemberServlet() {
 		super();
-
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -39,9 +31,7 @@ public class MemberServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
 		doService(request, response);
-
 	}
 
 	/**
@@ -79,9 +69,15 @@ public class MemberServlet extends HttpServlet {
 		case "delete" -> memberController.delete(request, memberVO);
 		case "updateForm" -> memberController.updateForm(request, memberVO);
 		case "update" -> memberController.update(request, memberVO);
-////		case "insertForm" -> memberController.insertForm(request,response);
-//		case "insertForm" -> "insertForm"
-////		case "insert" -> insert(request, response);
+		case "insertForm" -> memberController.insertForm(request,memberVO);
+		case "insert" -> memberController.insert(request, memberVO);
+		
+		case "existUserId" -> memberController.existUserId(request, memberVO);
+		case "loginForm" -> memberController.loginForm(request);
+		case "login" -> memberController.login(request, memberVO, response);
+		case "logout" -> memberController.logout(request);
+		case "mypage" -> memberController.mypage(request, memberVO);
+		
 		default -> "";
 		};
 		if (result instanceof Map map) {
@@ -90,7 +86,7 @@ public class MemberServlet extends HttpServlet {
 			response.getWriter().append(objectMapper.writeValueAsString(map));
 		} else if (result instanceof String url) {
 			if (url.startsWith("redirect:")) {
-				// 리다이렉트
+				// 리다이렉트		
 				response.sendRedirect(url.substring("redirect:".length()));
 			} else {
 				// 3. jsp 포워딩

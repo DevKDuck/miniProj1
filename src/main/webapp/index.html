@@ -1,24 +1,133 @@
-<!DOCTYPE html>
-<html>
+<!-- <!DOCTYPE html>
+<html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>index!!!!</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizontal Menu</title>
+    <link rel="stylesheet" href="css/home.css"> CSS 파일 연결
 </head>
 <body>
-<h1> 프로젝트 생성 및 Git 연결</h1>
-<ul>
-<li> <a href="introduction.html"> 회사소개  </a> </li>
-<li> <a href="member.do?action=insertForm"> 회원가입  </a> </li>
-<li> <a href="member.do?action=list"> 회원목록  </a> </li>
-<li> <a href="board.do?action=list">게시판</a> </li>
-<!-- <li> -->
-<!-- <form action = "memberServlet" method = "post">
-<input type="submit" value="회원가입">
-</form> -->
-<!-- </li> -->
 
-<li> <a href="member.do?action=list"> 로그인  </a> </li>
+<header>
+    <h1>MiniProject1</h1>
+    <nav class="navbar">
+        <ul>
+            <li><a href="#">회사소개</a>
+                <ul class="subMenu">
+                    <li><a href="introduction.html">회사소개</a></li>
+                </ul>
+            </li>
+            <li id="signupMenu" style="display: none;"><a href="#">회원가입</a>
+                <ul class="subMenu">
+                    <li><a href="member.do?action=insertForm">회원가입</a></li>
+                </ul>
+            </li>
+            <li id="mypageMenu" style="display: none;"><a href="#">마이페이지</a>
+                <ul class="subMenu">
+                    <li><a href="member.do?action=insertForm">마이페이지</a></li>
+                </ul>
+            </li>
+            <li id="memberManagementMenu" style="display: none;"><a href="#">회원관리</a>
+                <ul class="subMenu">
+                    <li><a href="member.do?action=insertForm">회원관리</a></li>
+                </ul>
+            </li>
+            <li><a href="#">게시판</a>
+                <ul class="subMenu">
+                    <li><a href="board.do?action=list">게시판</a></li>
+                </ul>
+            </li>
+            <li id="loginMenu" style="display: none;"><a href="#">로그인</a>
+                <ul class="subMenu">
+                    <li><a href="member.do?action=loginForm">로그인</a></li>
+                </ul>
+            </li>
+            <li id="logoutMenu" style="display: none;"><a href="#">로그아웃</a>
+                <ul class="subMenu">
+                    <li><a href="member.do?action=loginForm">로그아웃</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
 
-<br><br>
+<script>
+    // 로그인 여부에 따라 회원가입과 마이페이지 메뉴를 표시 또는 숨깁니다.
+    const isLoggedIn = false; // 로그인 여부에 따라 true 또는 false로 설정
+    const loginIDisBituser = true;
+    const signupMenu = document.getElementById('signupMenu');
+    const mypageMenu = document.getElementById('mypageMenu');
+    const memberManagementMenu = document.getElementById('memberManagementMenu');
+    const loginMenu = document.getElementById('loginMenu');
+    const logoutMenu = document.getElementById('logoutMenu');
+
+    if (isLoggedIn) {
+        logoutMenu.style.display = 'block';
+        if (loginIDisBituser) {
+            memberManagementMenu.style.display = 'block';
+        } else {
+            mypageMenu.style.display = 'block';
+        }
+    } else {
+        signupMenu.style.display = 'block';
+        loginMenu.style.display = 'block';
+    }
+</script>
+
 </body>
 </html>
+ -->
+ 
+ 
+ <!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizontal Menu</title>
+    <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+
+<header>
+
+    <h2> devkduck company</a></h2>
+    <nav>
+        <span><a href="introduction.html">기능소개</a></span>
+        <span><a href="member.do?action=insertForm">캐릭터소개</a></span>
+        <span><a href="member.do?action=loginForm">시작하기</a></span>
+        <span><a href="member.do?action=loginForm">시작하기</a></span>
+    </nav>
+</header>
+       
+       
+
+<script>
+    // 로그인 여부에 따라 회원가입과 마이페이지 메뉴를 표시 또는 숨깁니다.
+    const isLoggedIn = false; // 로그인 여부에 따라 true 또는 false로 설정
+    const loginIDisBituser = true;
+    const signupMenu = document.getElementById('signupMenu');
+    const mypageMenu = document.getElementById('mypageMenu');
+    const memberManagementMenu = document.getElementById('memberManagementMenu');
+    const loginMenu = document.getElementById('loginMenu');
+    const logoutMenu = document.getElementById('logoutMenu');
+
+    if (isLoggedIn) {
+        logoutMenu.style.display = 'block';
+        if (loginIDisBituser) {
+            memberManagementMenu.style.display = 'block';
+        } else {
+            mypageMenu.style.display = 'block';
+        }
+    } else {
+        signupMenu.style.display = 'block';
+        loginMenu.style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
+
+ 

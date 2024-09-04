@@ -1,13 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-
-<style>
+    <meta charset="UTF-8">
+    <title>나의페이지</title>
+    <style>
         
         
         body {
@@ -35,31 +36,31 @@
     </style>
 </head>
 <body>
-<h1> view </h1>
+    <br>
+    <h1>
+       나의페이지
+    </h1>
+    <br>
+    <br>
+   <div class="container">
+     <br> <label>아이디 : ${loginVO.member_id}</label> <br/>
+      <br><label>이름 : ${loginVO.member_name}</label><br/>
+      <br><label>주소: ${loginVO.member_address}</label><br/>
+      <br><label>번호: ${loginVO.member_phonenumber}</label><br/>
+      <br><label>성별: ${loginVO.member_gender}</label><br/>
+      <br><label>취미: ${loginVO.hobby_name}</label><br/>
+      
+<!-- 두개의 폼을 하나로 합치는 방법 , js를 사용하여 처리  -->
 <br><br>
- 
- <div class="container">
- <br><label>아이디 : ${view.member_id}</label> <br/>
- <br><label>비번  : ${view.member_pwd}</label> <br/>
- <br><label>이름  : ${view.member_name}</label> <br/>
- <br><label>주소  : ${view.member_address}</label> <br/>
- <br><label>번호  : ${view.member_phonenumber}</label> <br/>
- <br><label>성별  : ${view.member_gender}</label> <br/>
- <br><label>취미  : ${view.hobby_name}</label> <br/>
- 
- <br><br>
- <form id="viewForm" action="member.do" method="post">
- 		<input type="hidden" id="action" name="action" value="">
-    	<input type="hidden" id="member_id" name= "member_id" value= "${view.member_id}">
-    	<input type="button" value="삭제" onclick="jsDelete()">
-		<input type="button" value="수정" onclick="jsUpdateForm()">
- </form> 
- 
- <br>
- <a href="main.jsp">main이동</a>
- </div>
-<script>
-/* const member_id = document.getElementById("member_id") */
+<form id="viewForm" method="post" action="member.do">
+	<input type="hidden" id="action" name="action" value="">
+	<input type="hidden" id="member_id" name="member_id" value="${loginVO.member_id}">
+	<input type="button" value="삭제" onclick="jsDelete()">
+	<input type="button" value="수정" onclick="jsUpdateForm()">
+</form>   
+</div>
+ <script>
+
 function jsDelete() {
 	if (confirm("정말로 삭제하시겠습니까?")) {
 		 const member_id = document.getElementById("member_id");
@@ -80,7 +81,7 @@ function jsDelete() {
 				if(json.status == 0) {
 					//성공
 					alert("회원정보를 삭제 하였습니다");
-					location = "member.do?action=list";
+					location = "member.do?action=logout";
 				} else {
 					alert(json.statusMessage);
 				}
@@ -96,8 +97,9 @@ function jsUpdateForm() {
 		viewForm.submit();
 	}	
 }
-</script>
 
+</script>
 
 </body>
 </html>
+

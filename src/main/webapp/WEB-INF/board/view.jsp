@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<%@ page import="member.MemberVO" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+</head>
+<body>
 
-<style>
+ <style>
         
         
         body {
@@ -33,44 +35,63 @@
             margin-bottom: 30px; /* 헤더 아래 여백 */
         }
     </style>
-</head>
-<body>
+
+
+  
 <h1> view </h1>
-<br><br>
- 
- <div class="container">
- <br><label>아이디 : ${view.member_id}</label> <br/>
- <br><label>비번  : ${view.member_pwd}</label> <br/>
- <br><label>이름  : ${view.member_name}</label> <br/>
- <br><label>주소  : ${view.member_address}</label> <br/>
- <br><label>번호  : ${view.member_phonenumber}</label> <br/>
- <br><label>성별  : ${view.member_gender}</label> <br/>
- <br><label>취미  : ${view.hobby_name}</label> <br/>
- 
- <br><br>
- <form id="viewForm" action="member.do" method="post">
- 		<input type="hidden" id="action" name="action" value="">
-    	<input type="hidden" id="member_id" name= "member_id" value= "${view.member_id}">
-    	<input type="button" value="삭제" onclick="jsDelete()">
-		<input type="button" value="수정" onclick="jsUpdateForm()">
- </form> 
- 
+ <%
+// 세션에서 MemberID 값을 가져옵니다.
+Object s = session.getAttribute("loginVO");
+ String memberID = "1";
+ if (s != null) {
+     // loginVO 클래스로 캐스팅하여 getMember_id() 메서드 호출
+     if (s instanceof MemberVO) {
+    	 MemberVO login = (MemberVO) s;
+         memberID = "1";
+     }
+ } 
+ %> 
  <br>
- <a href="main.jsp">main이동</a>
- </div>
+ <br>
+ <div class="container">
+ <br><label>번호 : ${view.bno}</label> <br/>
+ <br><label>제목  : ${view.btitle}</label> <br/>
+ <br><label>내용  : ${view.bcontent}</label> <br/>
+ <br><label>아이디  : ${view.member_id}</label> <br/>
+ <br><label>날짜  : ${view.bdate}</label> <br/>
+ <br><label>본 횟수  : ${view.bcount}</label> <br/>
+ <br><label>작성자  : ${view.bwriter}</label> <br/>
+ <br><br>
+ <form id="viewForm" action="board.do" method="post">
+    <input type="hidden" id="action" name="action" value="">
+    <input type="hidden" id="bnoInput" name= "bno" value= "${view.bno}">
+    
+    <!-- 이부분 자료형때문인지 해결해야됨 -->
+    <c:if test="${view.member_id eq '1' or view.member_id eq 'bituser'}">
+        <input type="button" value="삭제" onclick="jsDelete()">
+        <input type="button" value="수정" onclick="jsUpdateForm()">
+     </c:if> </br>
+<br><br>
+    <a href="board.do?action=list" >게시판 돌아가기</a>
+ 
+</form>
+</div>
 <script>
-/* const member_id = document.getElementById("member_id") */
+
 function jsDelete() {
+	
+	
 	if (confirm("정말로 삭제하시겠습니까?")) {
-		 const member_id = document.getElementById("member_id");
+		 const bno = document.getElementById("bnoInput").value;
+		
 	    	//fetch를 사용하여 회원 가입을 함
 	    	//전송자료 구성 
 	    	const param = {
 				 action : 'delete'
-				,member_id : member_id.value
+				,bno : bno
 	    	} 
 		    	
-			fetch("member.do", {
+			fetch("board.do", {
 				method:"POST",
 				body:JSON.stringify(param),
 				headers : {"Content-type" : "application/json; charset=utf-8"}
@@ -79,8 +100,8 @@ function jsDelete() {
 				console.log("json ", json );
 				if(json.status == 0) {
 					//성공
-					alert("회원정보를 삭제 하였습니다");
-					location = "member.do?action=list";
+					alert("게시물을 삭제 하였습니다");
+					location = "board.do?action=list";
 				} else {
 					alert(json.statusMessage);
 				}
@@ -90,10 +111,8 @@ function jsDelete() {
 function jsUpdateForm() {
 	if (confirm("정말로 수정하시겠습니까?")) {
 		//서버의 URL을 설정한다 
-		action.value = "updateForm";
-	
-		//서버의 URL로 전송한다 
-		viewForm.submit();
+		document.getElementById("action").value = "updateForm";
+        document.getElementById("viewForm").submit();
 	}	
 }
 </script>

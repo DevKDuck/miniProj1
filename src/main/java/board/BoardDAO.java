@@ -10,11 +10,16 @@ import java.util.List;
 
 
 
+
+
 public class BoardDAO {
 	private static Connection conn = null;
 	private static PreparedStatement boardListPstmt = null;
-//	private static PreparedStatement memberDetailPstmt = null;
-	
+	private static PreparedStatement boardDetailPstmt = null;
+	private static PreparedStatement boardInsertPstmt = null;
+	private static PreparedStatement boardDeletePstmt = null;
+	private static PreparedStatement boardUpdatePstmt = null;
+	private static PreparedStatement boardViewCountUpdatePstmt = null;
 	static {
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
@@ -24,9 +29,13 @@ public class BoardDAO {
 			
 
 			 boardListPstmt = conn.prepareStatement("SELECT B.*, M.member_name bwriter FROM TB_BOARD B inner join TB_MEMBER M on B.member_id = M.member_id");
-
-			
-			
+			 boardDetailPstmt = conn.prepareStatement("SELECT B.*, M.member_name bwriter FROM TB_BOARD B inner join TB_MEMBER M on B.member_id = M.member_id where B.bno = ?");
+			 boardDeletePstmt = conn.prepareStatement("DELETE FROM TB_BOARD WHERE bno = ?");
+			 boardUpdatePstmt = conn.prepareStatement("UPDATE TB_BOARD  SET btitle = ?, bcontent  = ?,  bdate = NOW(),  bViewCount = 1 WHERE bno = ?");
+			 boardInsertPstmt = conn.prepareStatement("INSERT INTO TB_BOARD (btitle, bcontent, member_id, bdate, bViewCount) VALUES (?, ?, ?, NOW(), ?)");
+			 boardViewCountUpdatePstmt = conn.prepareStatement("UPDATE TB_BOARD SET bViewCount = bViewCount + 1 WHERE bno = ? ");
+			 
+			 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			
@@ -48,15 +57,12 @@ public class BoardDAO {
 	                rs = boardListPstmt.executeQuery();
 //	        	}
 	            while (rs.next()) {
-	            	BoardVO members = new BoardVO(rs.getInt("bno")
+	            	BoardVO boards = new BoardVO(rs.getInt("bno")
 	                        , rs.getString("btitle")
 	                        , rs.getString("bcontent")
-	                        , rs.getString("member_id")
-	                        , rs.getString("bdate")
-	                        , rs.getInt("bViewCount")
 	                        , rs.getString("bwriter"));
 	                
-	                list.add(members);
+	                list.add(boards);
 	            }
 	            rs.close();
 	        } catch (Exception e) {
@@ -64,4 +70,80 @@ public class BoardDAO {
 	        }
 	        return list;
 	    } 
+	  
+	  public BoardVO read(BoardVO board) {
+		  BoardVO boards = null;
+	        try {
+	        	boardViewCountUpdatePstmt.setInt(1,board.getBno());
+	        	
+	            boardViewCountUpdatePstmt.executeQuery();
+	            
+	        	boardDetailPstmt.setInt(1, board.getBno());
+
+	            ResultSet rs = boardDetailPstmt.executeQuery();
+	            if (rs.next()) {
+	            	boards = new BoardVO(rs.getInt("bno")
+	                        , rs.getString("btitle")
+	                        , rs.getString("bcontent")
+	                        , rs.getString("member_id")
+	                        , rs.getString("bdate")
+	                        , rs.getInt("bViewCount")
+	                        , rs.getString("bwriter")
+	                        );
+	            }
+	            rs.close();
+	            
+	            
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return boards;
+	    }
+	  
+	  public int delete(BoardVO board) {
+	        int updated = 0;
+
+	        try {
+	        	boardDeletePstmt.setInt(1, board.getBno());
+	            updated = boardDeletePstmt.executeUpdate();
+	            conn.commit();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return updated;
+	    }
+	  
+	  public int update(BoardVO board) {
+	        int updated = 0;
+	        try {
+	        	boardUpdatePstmt.setString(1, board.getBtitle());
+	        	boardUpdatePstmt.setString(2, board.getBcontent());
+	        	boardUpdatePstmt.setInt(3, board.getBno());
+	        	
+	            updated = boardUpdatePstmt.executeUpdate();
+	            conn.commit();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return updated;
+	    }
+	  
+	  public int insert(BoardVO board){
+	        int updated = 0;
+	        try{
+	        	boardInsertPstmt.setString(1, board.getBtitle()); // 첫 번째 ? 에 btitle 값을 설정
+	        	boardInsertPstmt.setString(2, board.getBcontent()); // 두 번째 ? 에 bcontent 값을 설정
+	        	boardInsertPstmt.setString(3, board.getMember_id()); // 세 번째 ? 에 member_id 값을 설정
+
+	        	boardInsertPstmt.setInt(4, 0); //
+
+	            updated = boardInsertPstmt.executeUpdate();
+	            conn.commit();
+	        }catch (Exception e){
+	            e.printStackTrace();
+	        }
+	        return updated;
+	    }
+	  
 }
