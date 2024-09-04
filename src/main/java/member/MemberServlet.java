@@ -14,22 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-/**
- * Servlet implementation class memberController
- */
 @WebServlet("/member.do")
 public class MemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
 
 	MemberController memberController = new MemberController();
 
 	public MemberServlet() {
 		super();
-
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -39,9 +31,7 @@ public class MemberServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
 		doService(request, response);
-
 	}
 
 	/**
